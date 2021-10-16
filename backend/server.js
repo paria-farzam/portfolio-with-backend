@@ -1,39 +1,38 @@
-if (process.env.NODE_INV !== "production") {
-    require("dotenv").config();
-}
+if(process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const express = require("express");
-const bodyParser = require('body-parser');
-const PORT = process.env.PORT || 3303;
 const app = express();
-const passport = require("passport");
-const flash = require("express-flash");
-const index = require('./index');
+const index = require("./index");
+const mongoose = require("mongoose");
+const bodyParser = require('body-parser');
+let session = require('express-session');
 
-app.set("view engine", "ejs");
+//config session
+var sess = {
+  secret: process.env.SECRET,
+  resave: false,
+  maxAge : 1000*60*60*30,
+  saveUninitialized: true,
+  cookie: { secure : true }
+}
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+  sess.cookie.secure = true // serve secure cookies
+}
+app.use(session(sess))
 
-//session
-const session = require("express-session");
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+//body parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
+// Connect to DB
+mongoose.connect("mongodb://127.0.0.1:27017");
+mongoose.Promise = global.Promise;
 
-//midlewares
-app.use(express.static(__dirname + "/public", { redirect: true }));
-app.use(express.json());
+//middlewares
 app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.urlencoded({extended : false}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
-app.use('/', index);
+app.use("/portfolio", index);
 
-
-app.listen(PORT, () => {
-  console.log(`im listening to ${PORT}`);
+app.listen(3001, ()=>{
+  console.log('i\'m at port 3000');
 });

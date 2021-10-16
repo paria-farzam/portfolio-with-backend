@@ -19,4 +19,18 @@ module.exports = new (class experience extends controller {
       else return res.json("about added successfully");
     });
   }
+
+  update(req, res){
+    this.model.experience.findOneAndUpdate(req.params.id, {title : 'Senior UI/UX Designer'}, (err)=>{
+      if(err) return err;
+      else return res.json('item updated successfully');
+    })
+  }
+
+  destroy(req, res){
+    this.model.experience.findOneAndRemove(req.params.id, (err)=>{
+      if(err) throw err;
+      else return res.json('item deleted successfully')
+    })
+  }
 })();
