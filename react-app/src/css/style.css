@@ -1,0 +1,263 @@
+* {
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+}
+body {
+  background: #202020 !important;
+  color: white;
+  font-family: "Poppins", Helvetica, sans-serif;
+  min-height: 100vh;
+}
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.575);
+}
+a:hover {
+  color: white;
+}
+
+/* header */
+.section-full {
+  max-width: 100vw;
+}
+.logo {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+}
+header {
+  height: fit-content !important;
+  max-width: 100vw !important;
+}
+header a {
+  margin-left: 3rem;
+}
+.logout{
+  background: #333333;
+  border: 1px solid #007ced;
+  color: #a9a9a9;
+  border-radius: 3rem;
+}
+.logout:hover{
+  background: #007ced;
+}
+
+/* Home */
+.home-img img {
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 4px 0px,
+    rgba(0, 0, 0, 0.651) 0px 2px 16px 0px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1.2rem solid #444444;
+  width: 27vw;
+  height: 27vw;
+}
+button.home-btn {
+  background: #333333;
+  border: 2px solid #007ced;
+  border-radius: 3rem;
+}
+button.home-btn:hover{
+  background: #007ced;
+}
+a.home-btn {
+  background: #d5d5d5;
+  color: #3d3d3d;
+  border: 3px solid #474c50;
+  border-radius: 3rem;
+  margin-left: .5rem;
+}
+a.home-btn:hover{
+  background: #474c50;
+  color: #d5d5d5;
+}
+
+/* resume */
+.vertical-line {
+  height: 70%;
+  border-left: 2px solid #474c50;
+  position: absolute;
+  margin-left: 1rem;
+  z-index: -1;
+}
+.titr {
+  height: 26vh;
+  background: #252525;
+  border-top: 2px solid #333333;
+  border-bottom: 2px solid #333333;
+}
+.titr h6 {
+  color: rgba(255, 255, 255, 0.575);
+}
+.resume-info {
+  margin: 4rem 5rem;
+}
+/* footer */
+footer {
+  background: #252525;
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+}
+footer a {
+  margin-right: 2rem;
+}
+
+.resume-info h3 {
+  margin-bottom: 1rem;
+}
+.info-container {
+  margin-left: 2rem;
+}
+.years {
+  border: 2px solid #007ced;
+  border-radius: 3rem;
+  font-size: small;
+  margin: 2rem -2rem;
+  background: #202020;
+}
+.resume-hr {
+  margin-left: 1rem;
+}
+
+/* contact */
+/* map and bot registery */
+.mapouter {
+  position: relative;
+}
+.gmap_canvas {
+  background: none !important;
+  width: fit-content;
+}
+div#rc-anchor-container {
+  background: transparent !important;
+}
+
+.contact-info {
+  width: 29vw;
+  margin-left: 3rem;
+  margin-right: 1rem;
+}
+.contact-info p {
+  color: #a9a9a9;
+}
+.contact-form input,
+.contact-form textarea {
+  background: transparent;
+  color: #9d9d9d;
+  border: 2px solid #555555;
+  border-radius: 0.5rem;
+  width: 30vw;
+  margin-bottom: 1.5rem;
+}
+.contact-form textarea {
+  height: 50%;
+  margin-left: 1rem;
+}
+.contact-btn {
+  background: #333333;
+  border: 2px solid #007ced;
+  border-radius: 3rem;
+  color: white;
+  width: fit-content;
+}
+.contact-btn:hover {
+  background: #007ced;
+}
+
+/* Extra */
+.price-option {
+  border: 1px solid #444444;
+  border-radius: 0.7rem;
+  margin: 1.5rem 0 5rem 2rem;
+  width: 28vw;
+  background: #333333;
+  height: fit-content;
+}
+.first-PO {
+  margin-left: 5rem;
+}
+.price-option:hover {
+  margin-top: 0.8rem;
+  margin-bottom: 5.7rem;
+  box-shadow: rgba(202, 202, 202, 0.35) 0px 5px 15px;
+}
+.price-option button {
+  border-radius: 3rem;
+  border: 2px solid #007ced;
+  background: transparent;
+  color: #d5d5d5;
+}
+.price-option button:hover {
+  background: #007ced;
+}
+
+/* messages */
+.msg-bar{
+  border: 1px solid #999999ad;
+  border-radius: 1rem;
+  background: #252525;
+}
+.msg-div{
+  padding-bottom: 7rem !important;
+
+}
+.msg-name {
+  width: 12vw !important;
+}
+.msg-email{
+  width: 18vw !important;
+}
+.msg-subject {
+  width: 20vw !important;
+}
+.msg-content {
+  width: 47vw !important;
+}
+.msg-btn{
+  width: 3vw !important;
+  height: fit-content;
+  border: 1px solid #007ced;
+  border-radius: 1.5rem;
+  background: #333333;
+  color: #d5d5d5;
+}
+.msg-btn:hover{
+  background: #007ced;
+}
+.msg-name, .msg_email, .msg-subject, .msg-content, .msg-row-num{
+  overflow: auto;
+  padding-left: .4rem;
+}
+
+/* login */
+.lg-form-section{
+  width: fit-content;
+}
+.lg-form{
+  border: 1px solid #999999ad;
+  border-radius: 1rem;
+  background: #252525;
+}
+.lg-input{
+  background: transparent;
+  color: #9d9d9d;
+  border: 2px solid #555555;
+  border-radius: 0.5rem;
+  width: 25vw;
+  margin-bottom: 1.5rem;
+}
+.lg-btn{
+  background: #333333;
+  border: 2px solid #007ced;
+  border-radius: 3rem;
+  color: white;
+  width: fit-content;
+}
+.lg-btn:hover{
+  background: #007ced;
+}
