@@ -4,6 +4,7 @@ module.exports = new (class education extends controller {
   index(req, res) {
     this.model.education.find({}, (err, education) => {
       if (err) throw err;
+      console.log(education)
       if (education.length > 0) return res.json({education});
       else return res.json({ msg: "no data is available" });
     });

@@ -2,19 +2,32 @@ const controller = require("./controller");
 const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
 const jwt = require('jsonwebtoken');
+const admin = require("../models/admin");
 
 module.exports = new (class authentication extends controller {
-  register(req, res) {
+  async register(req, res) {
+    const {username, password} = req.body;
+
     //validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
+    //check if username is exist
+    this.model.admin.find({username : username}, (err, admins)=>{
+      if(err) throw err;
+      
+      console.log(admins)
+      if(admins.length > 0){
+        return res.json('user already exist');
+      }
+    });
+
     //add admin
     new this.model.admin({
-      username: req.body.username,
-      password: req.body.password,
+      username: username,
+      password: password,
     }).save((err) => {
       if (err) throw err;
       return res.json("admin added successfully");
@@ -27,7 +40,7 @@ module.exports = new (class authentication extends controller {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
+    
     this.model.admin.findOne(
       { username: req.body.username },
       async function (err, user) {
@@ -47,7 +60,8 @@ module.exports = new (class authentication extends controller {
                 let token = jwt.sign(payload, process.env.SECRET, {
                   expiresIn: 300,
                 });
-                return res.json({auth : true, token : token, user});
+                // localStorage.setItem('token', token);
+                return res.json([token]);
               }
             }
           );

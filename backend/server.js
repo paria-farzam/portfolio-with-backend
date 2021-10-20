@@ -31,8 +31,9 @@ mongoose.Promise = global.Promise;
 
 //middlewares
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use("/portfolio", index);
 
-app.listen(3001, ()=>{
-  console.log('i\'m at port 3000');
+app.listen(process.env.PORT, ()=>{
+  console.log(`i'm at port ${process.env.PORT}`);
 });

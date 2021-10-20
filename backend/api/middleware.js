@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 const verifyAuth = (req, res, next) => {
-  let token = req.headers["x-access-token"];
+  // let token = req.headers["x-access-token"];
+  let token = localStorage.getItem('token');
   if (!token) return res.json({ success: false, msg: "user is not logeg in" });
   else {
     jwt.verify(token, process.env.SECRET, (err, decoded)=>{

@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { body } = require("express-validator");
+router.use(express.json())
+router.use(express.urlencoded({extended:false}))
 
 const aboutAPI = require("./api/about");
 const educationAPI = require("./api/education");
