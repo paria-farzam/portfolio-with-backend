@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt');
 
 const adminSchema = new Schema({
     username : {type : String, required : true},
-    password : {type : String, required : true}
+    password : {type : String, required : true},
+    token : {type : String, default : null}
 })
 
 adminSchema.pre('save', async function(next){

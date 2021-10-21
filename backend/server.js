@@ -1,4 +1,8 @@
 if(process.env.NODE_ENV !== 'production') require('dotenv').config();
+if (typeof localStorage === "undefined" || localStorage === null) {
+  var LocalStorage = require('node-localstorage').LocalStorage;
+  localStorage = new LocalStorage('./scratch');
+}
 
 const express = require("express");
 const app = express();

@@ -19,11 +19,10 @@ module.exports = new (class authentication extends controller {
     }
 
     //check if username is exist
-    this.model.admin.find({ username: username }, (err, admins) => {
+    this.model.admin.find({ username: username }, (err, admin) => {
       if (err) throw err;
 
-      console.log(admins);
-      if (admins.length > 0) {
+      if (admin.length > 0) {
         return res.json("user already exist");
       }
     });
@@ -64,10 +63,11 @@ module.exports = new (class authentication extends controller {
                 });
               if (result) {
                 const accessToken = createAccessToken(user.id);
-                const refreshToken = createRefreshToken(user.id);
-                user.refreshToken = refreshToken;
-                sendRefreshToken(res, refreshToken);
+                // const refreshToken = createRefreshToken(user.id);
+                user.token = accessToken;
+                // sendRefreshToken(res, refreshToken);
                 sendAccessToken(req, res, accessToken);
+                return res.json({auth : true, message : null})
               }
             }
           );
@@ -75,5 +75,15 @@ module.exports = new (class authentication extends controller {
     );
   }
 
-  logout() {}
+  logout(req, res) {
+    localStorage.removeItem('authentication');
+    this.model.admin.find(
+      { token: req.headers["authentication"] },
+      (err, user) => {
+        if (err) throw err;
+        user.token = "";
+        return res.json('you\'re logged out');
+      }
+    );
+  }
 })();
