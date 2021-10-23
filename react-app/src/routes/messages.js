@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router";
+import React, { useEffect, useState, useContext } from "react";
 import Footer from "../components/layouts/Footer";
+import {userContext} from '../components/App';
+import { Redirect } from "@reach/router";
 
 const Messages = () => {
+  const [user] = useContext(userContext);
   const [message, setMessage] = useState([]);
-
+  
   const getmessages = () => {
     fetch("/portfolio/message", { method: "GET" })
-      .then((res) => {
-        if (res.ok) return res.json(res);
-      })
-      .then((jsonRes) => setMessage(jsonRes));
+    .then((res) => {
+      if (res.ok) return res.json(res);
+    })
+    .then((jsonRes) => setMessage(jsonRes));
   }
-
+  
   useEffect(() => {
     getmessages();
   }, []);
-
+  
+  if(!user.token) return <Redirect from='' to='/login' noThrow />
   let messages = message.message;
   if (messages !== undefined) console.log(messages);
 
@@ -56,7 +59,6 @@ const Messages = () => {
 
           <div className="d-flex flex-column">
             {messages === undefined ? null : messages.map((msg) => (
-              // console.log(msg)
               <div key={msg._id} className="d-flex flex-row">
                 <p className="msg-name">{msg.name}</p>
                 <p className="msg-email">{msg.email}</p>
