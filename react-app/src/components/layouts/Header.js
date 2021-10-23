@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { userContext } from '../App';
 
 const Header = () => {
+  const [user] = useContext(userContext);
+  let lastNavLink;
+  let lastNavHref;
+  if(user.token){ 
+    lastNavLink = 'Messages';
+    lastNavHref = '/message'
+  } else {
+    lastNavLink = 'Login';
+    lastNavHref = '/login';
+  }
     return (
         <div className="p-5 row m-0">
             <header
@@ -23,7 +34,7 @@ const Header = () => {
           </div>
           <nav className="d-flex align-items-center">
             <a className="text-decoration-none" href="/">
-              About
+              Home
             </a>
             <a className="text-decoration-none" href="./resume">
               Resume
@@ -34,8 +45,8 @@ const Header = () => {
             <a className="text-decoration-none" href="./extra">
               Extra
             </a>
-            <a className="text-decoration-none" href="./login">
-              login
+            <a className="text-decoration-none" href={lastNavHref}>
+              {lastNavLink}
             </a>
             {/* <% if(isLogin){ %>
           <a className="text-decoration-none" href="./messages">Message</a>

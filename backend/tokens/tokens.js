@@ -5,9 +5,9 @@ const createAccessToken = userId => {
     return jwt.sign({userId}, process.env.ACCESS_TOKEN_SECRET, {expiresIn : '30d'});
 };
 
-const createRefreshToken = userId => {
-    return jwt.sign({userId}, process.env.REFRESH_TOKEN_SECRET, {expiresIn : '7d'})
-};
+// const createRefreshToken = userId => {
+//     return jwt.sign({userId}, process.env.REFRESH_TOKEN_SECRET, {expiresIn : '7d'})
+// };
 
 //send tokens
 const sendAccessToken = (req, res, accessToken) => {
@@ -18,16 +18,16 @@ const sendAccessToken = (req, res, accessToken) => {
     });
 };
 
-const sendRefreshToken = (res, token) => {
-    res.cookie('refreshToken', token, {
-        httpOnly : true,
-        path : '/refresh_token'
-    });
-};
+// const sendRefreshToken = (res, token) => {
+//     res.cookie('refreshToken', token, {
+//         httpOnly : true,
+//         path : '/refresh_token'
+//     });
+// };
 
 module.exports = {
     createAccessToken,
-    createRefreshToken,
+    // createRefreshToken,
     sendAccessToken,
-    sendRefreshToken
+    // sendRefreshToken
 }
