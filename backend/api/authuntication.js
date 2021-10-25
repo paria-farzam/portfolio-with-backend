@@ -47,42 +47,43 @@ module.exports = new (class authentication extends controller {
     this.model.admin.findOne(
       { username: req.body.username },
       async function (err, user) {
-        if (err) res.send({ error: `${err.message}` });
+        if (err) return res.send({ error: `${err.message}` });
         if (user == null)
           return res.json({ auth: false, message: "incorrect username" });
-        else
+        else {
           await bcrypt.compare(
             req.body.password,
             user.password,
-            (err, result) => {
-              if (err) res.send({ error: `${err.message}` });
+            async (err, result) => {
+              if (err) return res.send({ error: `${err.message}` });
               if (!result)
                 return res.json({
                   auth: false,
                   message: "incorrect password!",
                 });
               if (result) {
-                const accessToken = createAccessToken(user.id);
+                const accessToken = await createAccessToken(user.id);
                 // const refreshToken = createRefreshToken(user.id);
                 user.token = accessToken;
                 // sendRefreshToken(res, refreshToken);
                 sendAccessToken(req, res, accessToken);
-                return res.json({auth : true, message : null})
+                return res.json({ token: accessToken });
               }
             }
           );
+        }
       }
     );
   }
 
   logout(req, res) {
-    localStorage.removeItem('authentication');
+    localStorage.removeItem("authentication");
     this.model.admin.find(
       { token: req.headers["authentication"] },
       (err, user) => {
         if (err) throw err;
         user.token = "";
-        return res.json('you\'re logged out');
+        return res.json("you're logged out");
       }
     );
   }
