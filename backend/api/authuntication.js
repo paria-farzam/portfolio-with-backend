@@ -75,6 +75,14 @@ module.exports = new (class authentication extends controller {
       }
     );
   }
+  
+    getToken(req, res){
+      let authorization = localStorage.getItem('authentication');
+      if(authorization !== null){
+        let token = authorization.split(' ')[1];
+        return res.json({token, auth : true});
+      } else return res.json({auth : false});
+    }
 
   logout(req, res) {
     localStorage.removeItem("authentication");

@@ -1,34 +1,31 @@
+import { navigate } from "@reach/router";
 import React, { useState } from "react";
 import Footer from "../components/layouts/Footer";
 
 const Login = () => {
   const [data, setData] = useState({ username: "", password: "" });
-  const [res, setRes] = useState('');
-
+  const [res, setRes] = useState("");
+  
   const formHandler = (e) => {
     let newData = { ...data };
     newData[e.target.id] = e.target.value;
     setData(newData);
   };
-  const clearData = () => setData({ username: "", password: "" });
-
+  
   const login = async (e) => {
     e.preventDefault();
-    await fetch("/portfolio/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((res) => {
-        if (res.ok) return res.json();
+    const result = await (
+      await fetch("/portfolio/login", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       })
-      .then(JsonData => setRes(JsonData))
-      .then(()=>{
-        console.log(res);
-        clearData()})
-      .catch((err) => {
-        throw err;
-      });
+    ).json();
+    if (result.accessToken) {
+      navigate("/message");
+    } else console.log(result.error);
+    if (result.message) setRes(result.message);
   };
 
   return (
@@ -64,7 +61,7 @@ const Login = () => {
             type="password"
             placeholder="password"
           />
-        {res !== null ? <p>{res}</p> : ''}
+          {res !== null ? <p>{res}</p> : ""}
           <button className="lg-btn px-4 py-2 mx-auto mb-4" type="submit">
             LOGIN
           </button>

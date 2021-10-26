@@ -1,11 +1,24 @@
-import React, { useContext } from 'react';
-import { userContext } from '../App';
+import React, { useState, useEffect } from 'react';
 
 const Header = () => {
-  const [user] = useContext(userContext);
+  const [tokenObj, setToken] = useState('');
+  const verifyUser = () => {
+    fetch('/portfolio/verify', {method : "GET"})
+    .then((res)=>{
+      if(res.ok) return res.json(res);
+    })
+    .then((jsonRes)=> {
+      if(jsonRes.token) setToken(jsonRes.token)
+    });
+  }
+  
+  useEffect(() => {
+    verifyUser();
+  }, [tokenObj]);
+
   let lastNavLink;
   let lastNavHref;
-  if(user.token){ 
+  if(tokenObj){ 
     lastNavLink = 'Messages';
     lastNavHref = '/message'
   } else {

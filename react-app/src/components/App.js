@@ -1,7 +1,5 @@
-import { Router, navigate } from "@reach/router";
-import React, { createContext, useContext, useEffect, useState } from "react";
-import loadable from "@loadable/component";
-import { Route, BrowserRouter, Switch } from "react-router-dom";
+import { Router } from "@reach/router";
+import React, { createContext, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/style.css";
 
@@ -17,20 +15,11 @@ import Resume from "../routes/Resume";
 export const userContext = createContext([]);
 
 function App() {
-  const [user, setUser] = useState({});
-
-  const logOutCallBack = () => {
-    fetch("/portfolio/logout", {
-      method: "POST",
-      credentials: "include",
-    })
-      .then(() => setUser({}))
-      .then(() => navigator("/"));
-  };
-
+  let [user, setUser] = useState('k');
+  
   return (
-    <userContext.Provider value={[user, setUser]}>
-      <Header logOutCallBack={logOutCallBack} />
+    <userContext.Provider value={{user, setUser}}>
+      <Header />
       <Router id="router">
         <Contact path="contact" />
         <Extra path="extra" />

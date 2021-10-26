@@ -1,32 +1,55 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/layouts/Footer";
-import {userContext} from '../components/App';
-import { Redirect } from "@reach/router";
+import { navigate } from "@reach/router";
 
 const Messages = () => {
-  const [user] = useContext(userContext);
   const [message, setMessage] = useState([]);
-  
+  const [tokenObj, setToken] = useState('');
+
+  //get messages
   const getmessages = () => {
     fetch("/portfolio/message", { method: "GET" })
-    .then((res) => {
-      if (res.ok) return res.json(res);
+      .then((res) => {
+        if (res.ok) return res.json(res);
+      })
+      .then((jsonRes) => setMessage(jsonRes));
+  };
+
+  //get token to verify user
+  const verifyUser = async () => {
+    await fetch('/portfolio/verify', {method : "GET"})
+    .then((res)=>{
+      if(res.ok) return res.json(res);
     })
-    .then((jsonRes) => setMessage(jsonRes));
+    .then((jsonRes)=>{
+      let auth = jsonRes.auth;
+      if(!auth){ return navigate('/login')};
+      if(auth) {setToken(jsonRes.token);}
+    });
   }
   
+  //log out user
+  const logOutCallBack = () => {
+    fetch("/portfolio/logout", {
+      method: "POST",
+      credentials: "include",
+    })
+      .then(() => setToken(''))
+      .then(() => navigate("/login"));
+  };
+
   useEffect(() => {
     getmessages();
+    verifyUser();
   }, []);
   
-  if(!user.token) return <Redirect from='' to='/login' noThrow />
   let messages = message.message;
-  if (messages !== undefined) console.log(messages);
 
   const deletMsg = (id) => {
-    fetch(`/portfolio/message/${id}`, {method : 'DELETE'})
-    .then(res => {if(res.ok) getmessages()})
-  }
+    fetch(`/portfolio/message/${id}`, { method: "DELETE" }).then((res) => {
+      if (res.ok) getmessages();
+    });
+  };
 
   return (
     <div>
@@ -37,39 +60,44 @@ const Messages = () => {
           </h1>
           <div>
             <h6 className="mx-2 my-3">refresh to update massages...</h6>
-            <form action="/login/logout?_method=DELETE" method="POST">
-              <button className="px-3 py-2 logout" type="submit">
-                Log out
-              </button>
-            </form>
+            <button className="px-3 py-2 logout" onClick={logOutCallBack}>
+              Log out
+            </button>
           </div>
         </div>
       </section>
 
-      <div className='msg-div'>
-      <section className="msg-bar p-3 mt-5 mx-3">
-        <div className="d-flex flex-column">
-          <div className="d-flex flex-row">
-            <h5 className="msg-name">Name</h5>
-            <h5 className="msg-email">Email</h5>
-            <h5 className="msg-subject">Subject</h5>
-            <h5 className="msg-content">Message</h5>
-          </div>
-          <hr className="p-0 mt-0 mb-2" />
-
+      <div className="msg-div">
+        <section className="msg-bar p-3 mt-5 mx-3">
           <div className="d-flex flex-column">
-            {messages === undefined ? null : messages.map((msg) => (
-              <div key={msg._id} className="d-flex flex-row">
-                <p className="msg-name">{msg.name}</p>
-                <p className="msg-email">{msg.email}</p>
-                <p className="msg-subject">{msg.subject}</p>
-                <p className="msg-content">{msg.message}</p>
-                <button className='py-1 px-2 msg-btn' onClick={()=>deletMsg(msg._id)}>del</button>
-              </div>
-            ))}
+            <div className="d-flex flex-row">
+              <h5 className="msg-name">Name</h5>
+              <h5 className="msg-email">Email</h5>
+              <h5 className="msg-subject">Subject</h5>
+              <h5 className="msg-content">Message</h5>
+            </div>
+            <hr className="p-0 mt-0 mb-2" />
+
+            <div className="d-flex flex-column">
+              {messages === undefined
+                ? null
+                : messages.map((msg) => (
+                    <div key={msg._id} className="d-flex flex-row">
+                      <p className="msg-name">{msg.name}</p>
+                      <p className="msg-email">{msg.email}</p>
+                      <p className="msg-subject">{msg.subject}</p>
+                      <p className="msg-content">{msg.message}</p>
+                      <button
+                        className="py-1 px-2 msg-btn"
+                        onClick={() => deletMsg(msg._id)}
+                      >
+                        del
+                      </button>
+                    </div>
+                  ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
       </div>
       <Footer />
     </div>

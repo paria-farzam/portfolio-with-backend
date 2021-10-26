@@ -9,6 +9,7 @@ const educationAPI = require("./api/education");
 const experienceAPI = require("./api/experience");
 const messageAPI = require("./api/messages");
 const authenticationAPI = require("./api/authuntication");
+const { login } = require("./api/authuntication");
 
 //home
 router.get("/about", aboutAPI.index.bind(aboutAPI));
@@ -35,8 +36,7 @@ router.post(
 router.get("/message", messageAPI.index.bind(messageAPI));
 router.delete("/message/:id", messageAPI.destroy.bind(messageAPI));
 
-//login
-// router.post('/login', loginAPI.login.bind(loginAPI));
+//authentication
 router.post(
   "/register",
   body("username", "please add a username").notEmpty(),
@@ -49,6 +49,7 @@ router.post(
   body("password", "please add a password").notEmpty(),
   authenticationAPI.login.bind(authenticationAPI)
 );
+router.get('/verify', authenticationAPI.getToken);
 router.post("/logout", authenticationAPI.logout.bind(authenticationAPI));
 
 module.exports = router;
