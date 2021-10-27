@@ -23,6 +23,7 @@ const Login = () => {
       })
     ).json();
     if (result.accessToken) {
+      window.localStorage.setItem('authentication', result.accessToken);
       navigate("/message");
     } else console.log(result.error);
     if (result.message) setRes(result.message);

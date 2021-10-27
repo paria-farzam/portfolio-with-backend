@@ -3,18 +3,13 @@ import React, { useState, useEffect } from 'react';
 const Header = () => {
   const [tokenObj, setToken] = useState('');
   const verifyUser = () => {
-    fetch('/portfolio/verify', {method : "GET"})
-    .then((res)=>{
-      if(res.ok) return res.json(res);
-    })
-    .then((jsonRes)=> {
-      if(jsonRes.token) setToken(jsonRes.token)
-    });
+    let token = window.localStorage.getItem('authentication');
+    setToken(token);
   }
   
   useEffect(() => {
     verifyUser();
-  }, [tokenObj]);
+  }, []);
 
   let lastNavLink;
   let lastNavHref;

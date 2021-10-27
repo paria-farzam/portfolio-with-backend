@@ -16,16 +16,9 @@ const Messages = () => {
   };
 
   //get token to verify user
-  const verifyUser = async () => {
-    await fetch('/portfolio/verify', {method : "GET"})
-    .then((res)=>{
-      if(res.ok) return res.json(res);
-    })
-    .then((jsonRes)=>{
-      let auth = jsonRes.auth;
-      if(!auth){ return navigate('/login')};
-      if(auth) {setToken(jsonRes.token);}
-    });
+  const verifyUser = () => {
+    let token = window.localStorage.getItem('authentication');
+    setToken(token);
   }
   
   //log out user
@@ -36,6 +29,7 @@ const Messages = () => {
     })
       .then(() => setToken(''))
       .then(() => navigate("/login"));
+      window.localStorage.removeItem('authentication');
   };
 
   useEffect(() => {
