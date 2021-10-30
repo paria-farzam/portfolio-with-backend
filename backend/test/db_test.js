@@ -109,6 +109,36 @@ describe("DB test", () => {
       });
   });
 
+  //experience model
+  describe("test education model", () => {
+    it("add new education", async () => {
+        let newExperience = new experience({
+          year: "2021",
+          title: "experience title",
+          desc : "this is the description"
+        });
+        newExperience = await newExperience.save();
+  
+        newExperience.should.be.a("object");
+        newExperience.should.have.property("year");
+        newExperience.should.have.property("title");
+        newExperience.should.have.property("desc");
+      });
+  
+      it("find all experience", async () => {
+        let newExperience = await experience.find({});
+  
+        newExperience.should.be.a("array");
+  
+        for (let i = 0; i < newExperience.length; i++) {
+          newExperience[i].should.be.a("object");
+          newExperience[i].should.have.property("year");
+          newExperience[i].should.have.property("title");
+          newExperience[i].should.have.property("desc");
+        }
+      });
+  });
+
   after(() => {
     mongoose.connection.close();
   });
