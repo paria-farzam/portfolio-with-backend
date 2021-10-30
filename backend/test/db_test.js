@@ -23,7 +23,7 @@ describe("DB test", () => {
     .on("error", (error) => {console.log(error); done();});
   });
 
-  describe("chacking about db", () => {
+  describe("chacking about model", () => {
     it("it should save data in about model", async() => {
       let aboutData = new about({
         career: "career",
@@ -37,7 +37,16 @@ describe("DB test", () => {
       aboutData.should.have.property('name');
       aboutData.should.have.property('desc');
     });
+
+    it("it should get data from about model", async() =>{
+        let aboutData = await about.find({});
+        aboutData.should.be.a('array');
+        aboutData[0].should.have.property('career');
+        aboutData[0].should.have.property('name');
+        aboutData[0].should.have.property('desc');
+    })
   });
+
 
   after(() => {
     mongoose.connection.close();
