@@ -38,6 +38,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use("/portfolio", index);
 
+module.exports = app;
+
 app.listen(process.env.PORT, ()=>{
   console.log(`i'm at port ${process.env.PORT}`);
 });

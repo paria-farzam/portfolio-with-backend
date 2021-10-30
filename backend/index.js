@@ -49,7 +49,6 @@ router.post(
   body("password", "please add a password").notEmpty(),
   authenticationAPI.login.bind(authenticationAPI)
 );
-router.get('/verify', authenticationAPI.getToken);
 router.post("/logout", authenticationAPI.logout.bind(authenticationAPI));
 
 module.exports = router;
