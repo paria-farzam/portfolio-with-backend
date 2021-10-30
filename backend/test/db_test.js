@@ -23,8 +23,8 @@ describe("DB test", () => {
       .once("open", () => done())
       .on("error", (error) => {
         console.log(error);
-        done();
       });
+      done()
   });
 
   //test about model
@@ -93,6 +93,19 @@ describe("DB test", () => {
         newEducation.should.have.property("year");
         newEducation.should.have.property("title");
         newEducation.should.have.property("desc");
+      });
+  
+      it("find all education", async () => {
+        let newEducation = await education.find({});
+  
+        newEducation.should.be.a("array");
+  
+        for (let i = 0; i < newEducation.length; i++) {
+          newEducation[i].should.be.a("object");
+          newEducation[i].should.have.property("year");
+          newEducation[i].should.have.property("title");
+          newEducation[i].should.have.property("desc");
+        }
       });
   });
 
