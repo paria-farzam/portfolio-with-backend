@@ -157,6 +157,19 @@ describe("DB test", () => {
         newMessage.should.have.property('subject')
         newMessage.should.have.property('message')
       })
+
+    it('get messages', async () => {
+        let messages = await message.find({});
+        messages.should.be.a("array");
+
+      for (let i = 0; i < messages.length; i++) {
+        messages[i].should.be.a("object");
+        messages[i].should.have.property("name");
+        messages[i].should.have.property("email");
+        messages[i].should.have.property("subject");
+        messages[i].should.have.property("message");
+      }
+    })
   })
 
   after(() => {
