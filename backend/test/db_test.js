@@ -17,36 +17,49 @@ describe("DB test", () => {
     mongoose.connect(config.DBHOST, { useNewUrlParser: true });
   });
 
-  it("checking the db connection", (done) => {
-    mongoose.connection
-    .once("open", () => done())
-    .on("error", (error) => {console.log(error); done();});
-  });
+  //   it("checking the db connection", (done) => {
+  //     mongoose.connection
+  //     .once("open", () => done())
+  //     .on("error", (error) => {console.log(error); done();});
+  //   });
 
-  describe("chacking about model", () => {
-    it("it should save data in about model", async() => {
+  describe("about model", () => {
+    it("it should save data in about model", async () => {
       let aboutData = new about({
         career: "career",
         name: "name",
         desc: "desc",
-      })
+      });
       aboutData = await aboutData.save();
 
-      aboutData.should.be.a('object');
-      aboutData.should.have.property('career');
-      aboutData.should.have.property('name');
-      aboutData.should.have.property('desc');
+      aboutData.should.be.a("object");
+      aboutData.should.have.property("career");
+      aboutData.should.have.property("name");
+      aboutData.should.have.property("desc");
     });
 
-    it("it should get data from about model", async() =>{
-        let aboutData = await about.find({});
-        aboutData.should.be.a('array');
-        aboutData[0].should.have.property('career');
-        aboutData[0].should.have.property('name');
-        aboutData[0].should.have.property('desc');
-    })
+    it("it should get data from about model", async () => {
+      let aboutData = await about.find({});
+      aboutData.should.be.a("array");
+      aboutData[0].should.have.property("career");
+      aboutData[0].should.have.property("name");
+      aboutData[0].should.have.property("desc");
+    });
   });
 
+  describe("admin model", () => {
+    it("add new admin", async () => {
+      let newAdmin = new admin({
+        username: "admin",
+        password: "1234",
+      });
+      newAdmin = await newAdmin.save();
+
+      newAdmin.should.be.a("object");
+      newAdmin.should.have.property("username");
+      newAdmin.should.have.property("password");
+    });
+  });
 
   after(() => {
     mongoose.connection.close();
