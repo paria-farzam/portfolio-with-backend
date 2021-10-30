@@ -17,11 +17,11 @@ describe("DB test", () => {
     mongoose.connect(config.DBHOST, { useNewUrlParser: true });
   });
 
-  //   it("checking the db connection", (done) => {
-  //     mongoose.connection
-  //     .once("open", () => done())
-  //     .on("error", (error) => {console.log(error); done();});
-  //   });
+    it("checking the db connection", (done) => {
+      mongoose.connection
+      .once("open", () => done())
+      .on("error", (error) => {console.log(error); done();});
+    });
 
   describe("about model", () => {
     it("it should save data in about model", async () => {
@@ -58,6 +58,18 @@ describe("DB test", () => {
       newAdmin.should.be.a("object");
       newAdmin.should.have.property("username");
       newAdmin.should.have.property("password");
+    });
+
+    it("get all admins", async () => {
+      let newAdmin = await admin.find({});
+      
+      newAdmin.should.be.a("array");
+
+      for(let i = 0; i < newAdmin.length; i++){
+          newAdmin[i].should.be.a("object");
+          newAdmin[i].should.have.property("username");
+          newAdmin[i].should.have.property("password");
+      }
     });
   });
 
