@@ -17,12 +17,17 @@ describe("DB test", () => {
     mongoose.connect(config.DBHOST, { useNewUrlParser: true });
   });
 
-    it("checking the db connection", (done) => {
-      mongoose.connection
+  //test db connection
+  it("checking the db connection", (done) => {
+    mongoose.connection
       .once("open", () => done())
-      .on("error", (error) => {console.log(error); done();});
-    });
+      .on("error", (error) => {
+        console.log(error);
+        done();
+      });
+  });
 
+  //test about model
   describe("about model", () => {
     it("it should save data in about model", async () => {
       let aboutData = new about({
@@ -38,7 +43,7 @@ describe("DB test", () => {
       aboutData.should.have.property("desc");
     });
 
-    it("it should get data from about model", async () => {
+    it("it should find data from about model", async () => {
       let aboutData = await about.find({});
       aboutData.should.be.a("array");
       aboutData[0].should.have.property("career");
@@ -47,6 +52,7 @@ describe("DB test", () => {
     });
   });
 
+  //test admin model
   describe("admin model", () => {
     it("add new admin", async () => {
       let newAdmin = new admin({
@@ -60,17 +66,34 @@ describe("DB test", () => {
       newAdmin.should.have.property("password");
     });
 
-    it("get all admins", async () => {
+    it("find all admins", async () => {
       let newAdmin = await admin.find({});
-      
+
       newAdmin.should.be.a("array");
 
-      for(let i = 0; i < newAdmin.length; i++){
-          newAdmin[i].should.be.a("object");
-          newAdmin[i].should.have.property("username");
-          newAdmin[i].should.have.property("password");
+      for (let i = 0; i < newAdmin.length; i++) {
+        newAdmin[i].should.be.a("object");
+        newAdmin[i].should.have.property("username");
+        newAdmin[i].should.have.property("password");
       }
     });
+  });
+
+  //test education model
+  describe("test education model", () => {
+    it("add new education", async () => {
+        let newEducation = new education({
+          year: "2021",
+          title: "education title",
+          desc : "this is the description"
+        });
+        newEducation = await newEducation.save();
+  
+        newEducation.should.be.a("object");
+        newEducation.should.have.property("year");
+        newEducation.should.have.property("title");
+        newEducation.should.have.property("desc");
+      });
   });
 
   after(() => {
