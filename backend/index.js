@@ -18,6 +18,7 @@ router.post("/about", aboutAPI.store.bind(aboutAPI));
 //resume
 router.post("/education", educationAPI.store.bind(educationAPI));
 router.get("/education", educationAPI.index.bind(educationAPI));
+router.delete("/education/:id", educationAPI.destroy.bind(educationAPI));
 
 router.get("/experience", experienceAPI.index.bind(experienceAPI));
 router.post("/experience", experienceAPI.store.bind(experienceAPI));

@@ -20,4 +20,11 @@ module.exports = new (class education extends controller {
       else return res.json("about added successfully");
     });
   }
+
+  destroy(req, res){
+    this.model.education.findOneAndRemove(req.params.id, (err)=>{
+      if(err) throw err;
+      else res.json('item deleted');
+    })
+  }
 })();
