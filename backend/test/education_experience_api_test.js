@@ -21,64 +21,72 @@ describe('education and experience api test', () => {
     })
 
     describe('education api test', () => {
-        it('GET portfolio/education', async () => {
+        it('GET portfolio/education', (done) => {
             chai.request(server)
             .get('/portfolio/education')
             .end((err, res) => {
+                res.should.have.status(200)
                 should.not.exist(err);
                 res.body.should.be.a('object');
                 res.body.should.have.property('education');
-                res.body.education.should.have.property('year')
-                res.body.education.should.have.property('titlr')
-                res.body.education.should.have.property('desc')
+                res.body.education[0].should.have.property('year')
+                res.body.education[0].should.have.property('title')
+                res.body.education[0].should.have.property('desc')
+                done();
             });
         })
 
-        it('POST portfolio/education', async () => {
+        it('POST portfolio/education', (done) => {
             chai.request(server)
             .post('/portfolio/education')
             .send({year : '2021', title : 'it is the title', desc : 'this is the desc'})
             .end((err, res) => {
+                res.should.have.status(200)
                 should.not.exist(err);
                 res.body.should.be.a('object');
-                res.body.should.have.property('msg');
-                res.body.msg.should.be.equal('education added successfully');
+                res.body.should.have.property('msg').eql('education added successfully');
+                done();
             })
         })
 
-        it('DELETE portfolio/education', async () => {
-            chai.request(server)
-            .delete('/portfolio/education')
+        it('DELETE portfolio/education', (done) => {
+            // chai.request(server)
+            // .delete('/portfolio/education/')
+            done()
         })
     })
 
     describe('experience api test', () => {
-        it('GET portfolio/experience', async () => {
+        it('GET portfolio/experience', (done) => {
             chai.request(server)
             .get('/portfolio/experience')
             .end((err, res) => {
+                res.should.have.status(200)
                 should.not.exist(err);
                 res.body.should.be.a('object');
                 res.body.should.have.property('experience');
-                res.body.experience.should.have.property('year')
-                res.body.experience.should.have.property('titlr')
-                res.body.experience.should.have.property('desc')
+                res.body.experience[0].should.have.property('year')
+                res.body.experience[0].should.have.property('title')
+                res.body.experience[0].should.have.property('desc')
+                done();
             })
         })
 
-        it('POST portfolio/experience', async () => {
+        it('POST portfolio/experience', (done) => {
             chai.request(server)
             .post('/portfolio/experience')
             .send({year : '2021', title : 'it is the title', desc : 'this is the desc'})
             .end((err, res) => {
+                res.should.have.status(200)
                 should.not.exist(err);
                 res.body.should.be.a('object');
                 res.body.should.have.property('msg');
                 res.body.msg.should.be.equal('experience added successfully');
+                done();
             })
         })
 
-        it('DELETE portfolio/experience', async () => {})
+        it('DELETE portfolio/experience', (done) => {done()})
     })
 
 
