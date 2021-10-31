@@ -17,7 +17,7 @@ module.exports = new (class education extends controller {
       desc: req.body.desc,
     }).save((err) => {
       if (err) throw err;
-      else return res.json("about added successfully");
+      else return res.json({msg : "education added successfully"});
     });
   }
 

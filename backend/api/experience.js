@@ -16,7 +16,7 @@ module.exports = new (class experience extends controller {
       desc: req.body.desc,
     }).save((err) => {
       if (err) throw err;
-      else return res.json("about added successfully");
+      else return res.json({msg : "experience added successfully"});
     });
   }
 
