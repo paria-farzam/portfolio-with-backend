@@ -24,14 +24,14 @@ module.exports = new (class messages extends controller {
       message: req.body.message,
     }).save(err => {
       if(err) throw err;
-      else res.json('your message sent!');
+      else res.json({msg:'your message sent!'});
     })
   }
 
   destroy(req, res){
     this.model.message.findOneAndRemove(req.params.id, (err)=>{
       if(err) throw err;
-      else res.json('message deleted');
+      else res.json({msg:'message deleted'});
     })
   }
 })();
