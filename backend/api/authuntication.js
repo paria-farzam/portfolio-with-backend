@@ -33,7 +33,7 @@ module.exports = new (class authentication extends controller {
       password: password,
     }).save((err) => {
       if (err) throw err;
-      return res.json("admin added successfully");
+      return res.json({msg:"admin added successfully"});
     });
   }
 
@@ -83,7 +83,7 @@ module.exports = new (class authentication extends controller {
       (err, user) => {
         if (err) throw err;
         user.token = "";
-        return res.json("you're logged out");
+        return res.json({msg:"you're logged out"});
       }
     );
   }
