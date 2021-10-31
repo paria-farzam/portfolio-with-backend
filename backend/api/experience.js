@@ -30,7 +30,7 @@ module.exports = new (class experience extends controller {
   destroy(req, res){
     this.model.experience.findOneAndRemove(req.params.id, (err)=>{
       if(err) throw err;
-      else return res.json('item deleted successfully')
+      else return res.json({msg:'item deleted successfully'})
     })
   }
 })();

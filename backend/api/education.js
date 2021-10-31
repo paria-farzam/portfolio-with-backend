@@ -24,7 +24,7 @@ module.exports = new (class education extends controller {
   destroy(req, res){
     this.model.education.findOneAndRemove(req.params.id, (err)=>{
       if(err) throw err;
-      else res.json('item deleted');
+      else res.json({msg : 'item deleted'});
     })
   }
 })();

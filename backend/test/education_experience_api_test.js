@@ -4,6 +4,8 @@ const config = require('config');
 const chai = require('chai');
 const should = chai.should();
 const server = require('../server');
+const education = require('../models/education');
+const experience = require('../models/experience');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 
@@ -29,9 +31,11 @@ describe('education and experience api test', () => {
                 should.not.exist(err);
                 res.body.should.be.a('object');
                 res.body.should.have.property('education');
-                res.body.education[0].should.have.property('year')
-                res.body.education[0].should.have.property('title')
-                res.body.education[0].should.have.property('desc')
+                for(let i = 0; i < res.body.education.length; i++){
+                    res.body.education[i].should.have.property('year')
+                    res.body.education[i].should.have.property('title')
+                    res.body.education[i].should.have.property('desc')
+                }
                 done();
             });
         })
@@ -50,9 +54,16 @@ describe('education and experience api test', () => {
         })
 
         it('DELETE portfolio/education', (done) => {
-            // chai.request(server)
-            // .delete('/portfolio/education/')
-            done()
+            let educationData = education.findOne({year : '2021', title : 'it is the title', desc : 'this is the desc'});
+            let id = educationData._id;
+            chai.request(server)
+            .delete(`/portfolio/education/${id}`)
+            .end((err, res)=>{
+                should.not.exist(err);
+                res.should.have.status(200);
+                res.body.should.have.property('msg').eql('item deleted');
+                done()
+            })
         })
     })
 
@@ -65,9 +76,11 @@ describe('education and experience api test', () => {
                 should.not.exist(err);
                 res.body.should.be.a('object');
                 res.body.should.have.property('experience');
-                res.body.experience[0].should.have.property('year')
-                res.body.experience[0].should.have.property('title')
-                res.body.experience[0].should.have.property('desc')
+                for(let i = 0; i < res.body.experience.length; i++){
+                    res.body.experience[i].should.have.property('year')
+                    res.body.experience[i].should.have.property('title')
+                    res.body.experience[i].should.have.property('desc')
+                }
                 done();
             })
         })
@@ -86,7 +99,18 @@ describe('education and experience api test', () => {
             })
         })
 
-        it('DELETE portfolio/experience', (done) => {done()})
+        it('DELETE portfolio/experience', (done) => {
+            let experienceData = experience.findOne({year : '2021', title : 'it is the title', desc : 'this is the desc'});
+            let id = experienceData._id;
+            chai.request(server)
+            .delete(`/portfolio/experience/${id}`)
+            .end((err, res)=>{
+                should.not.exist(err);
+                res.should.have.status(200);
+                res.body.should.have.property('msg').eql('item deleted successfully');
+                done()
+            })
+        })
     })
 
 
